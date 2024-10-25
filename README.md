@@ -25,13 +25,20 @@ This project has been inspired by the Pok√©mon games made by GameFreak. The Pok√
 
 ### Installation
 
-1. Clone the repository:
-   git clone https://github.com/yourusername/Pokemon-Game.git
+## Installation Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sarthak-jain37/Pokemon-Game.git
+
 2. Navigate into the project directory:
+   ```bash
    cd Pokemon-Game
 3. Compile the Java files:
+   ```bash
    javac *.java
 4. Run the game:
+   ```bash
    java Game
    
 # How to Play
