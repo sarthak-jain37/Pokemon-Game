@@ -47,7 +47,7 @@ Upon running the game, you will be prompted to choose a Pokémon by entering a n
 After making your selection, you will face a rival Pokémon in a battle.
 Choose your moves and see if you can defeat your rival!
 
-#Future Enhancements
+# Future Enhancements
 
 1. Adding types for moves as well rather than basing attack power solely on the Pokémon's type.
 2. Adding the concept of PP so the stronger moves aren't used excessively.
