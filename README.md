@@ -33,7 +33,7 @@ This project has been inspired by the Pok√©mon games made by GameFreak. The Pok√
 
 2. Navigate into the project directory:
    ```bash
-   cd Pokemon-Game
+   cd Pokemon-Game/src
 3. Compile the Java files:
    ```bash
    javac *.java
