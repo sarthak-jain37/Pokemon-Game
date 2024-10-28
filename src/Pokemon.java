@@ -1,25 +1,23 @@
+import java.util.List;
 public class Pokemon {
     private final String name;
-    private final String type;
-    private final String moves[];
-    private final int basePower[];
-    private double advantage;
+    private final Type type;
+    private final List<Move> moves;
+    private final Stat atk;
+    private final Stat def;
+    private final Stat speed;
     private final int lvl;
     private int hp;
-    private final int atk;
-    private final int def;
-    private final int speed;
 
-    public Pokemon(String name, String moves[], String type, int lvl, int basePower[], int hp, int atk, int def, int speed){
+    public Pokemon(String name, List<Move> moves, Stat atk, Stat def, Stat speed, Type type, int lvl, int hp){
         this.name = name;
         this.moves = moves;
         this.type = type;
-        this.lvl = lvl;
-        this.basePower = basePower;
-        this.hp = hp;
         this.atk = atk;
         this.def = def;
         this.speed = speed;
+        this.lvl = lvl;
+        this.hp = hp;
     }
 
     
@@ -27,15 +25,15 @@ public class Pokemon {
     public void display(){
         System.out.println("\nName: "+name);
         System.out.print("Moves:");
-        for(String m : moves) {
-            System.out.print("  " +m);
+        for(Move m : moves) {
+            System.out.print("  " +m.getName());
         }
         System.out.println();
         System.out.println("Type: "+type);
         System.out.println("HP: "+hp);
-        System.out.println("Attack: "+atk);
-        System.out.println("Defense: "+def);
-        System.out.println("Speed: "+speed);
+        System.out.println(atk.getType() + " : " + atk.getValue());
+        System.out.println(def.getType() + " : " + def.getValue());
+        System.out.println(speed.getType() + " : " + speed.getValue());
         System.out.println();
     }
 
@@ -43,56 +41,32 @@ public class Pokemon {
         return name;
     }
 
-    public String[] getMoves() {
+    public List<Move> getMoves() {
         return moves;
     }
 
-    public int[] getBasePower() {
-        return basePower;
-    }
-
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public int getHP() {
+    public int getHP(){
         return hp;
-    }
-
-    public int getAtk() {
-        return atk;
-    }
-
-    public int getDef() {
-        return def;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public int getLvl() {
         return lvl;
     }
 
-    public double getAdvantage() {
-        return advantage;
+    public Stat getAtk(){
+        return atk;
     }
 
-    public void setAdvantage(Pokemon opponent) {
-        this.advantage = calculateAdvantage(this.type, opponent.getType());
+    public Stat getDef() {
+        return def;
     }
 
-    private double calculateAdvantage(String playerType, String opponentType) {
-        if (playerType.equals(opponentType)) {
-            return 1.0;
-        }
-        return switch (playerType) {
-            case "Fire" -> opponentType.equals("Water") ? 0.5 : 2.0;
-            case "Water" -> opponentType.equals("Grass") ? 0.5 : 2.0;
-            case "Grass" -> opponentType.equals("Fire") ? 0.5 : 2.0;
-            default -> 1.0;
-        }; 
+    public Stat getSpeed() {
+        return speed;
     }
 
     public void reduceHP(int damage){

@@ -1,22 +1,58 @@
+import java.util.ArrayList;
+import java.util.List;
 public class PokemonFactory {
         static Pokemon buildObject(String pokemonName){
+            List<Move> moves = new ArrayList<>();
             switch (pokemonName) {
                 case "Bulbasaur" -> {
-                    String moves[] = {"Tackle", "Growl", "Razor Leaf", "Vine Whip"};
-                    int basePower[] = {35, 0, 55, 35};
-                    return new Pokemon("Bulbasaur", moves, "Grass", 5,  basePower, 8, 8, 8, 8);
+                    Type type = Type.GRASS;
+                    int lvl = 5;
+                    int hp = 8;
+
+                    Stat atk = new Stat(Stat.StatType.ATTACK, 8);
+                    Stat def = new Stat(Stat.StatType.DEFENSE, 8);
+                    Stat speed = new Stat(Stat.StatType.SPEED, 8);
+
+                    moves.add(new Move("Tackle", Type.NORMAL,35, Move.MoveCategory.PHYSICAL, null));
+                    moves.add(new Move("Growl", Type.NORMAL, 0, Move.MoveCategory.STATUS, Move.StatusEffect.ATTACK_DOWN));
+                    moves.add(new Move("Razor Leaf", Type.GRASS, 55, Move.MoveCategory.SPECIAL, null));
+                    moves.add(new Move("Vine Whip", Type.GRASS, 35, Move.MoveCategory.SPECIAL, null));
+
+                    return new Pokemon(pokemonName, moves, atk, def, speed, type, lvl, hp);
                 }
                     
                 case "Charmander" -> {
-                    String moves[] = {"Scratch", "Growl", "Ember", "Metal Claw"};
-                    int basePower[] = {40, 0, 40, 50};
-                    return new Pokemon("Charmander", moves, "Fire", 5, basePower, 8, 9, 8, 11);
+                    Type type = Type.FIRE;
+                    int lvl = 5;
+                    int hp = 8;
+
+                    Stat atk = new Stat(Stat.StatType.ATTACK, 9);
+                    Stat def = new Stat(Stat.StatType.DEFENSE, 8);
+                    Stat speed = new Stat(Stat.StatType.SPEED, 11);
+
+                    moves.add(new Move("Scratch", Type.NORMAL, 40, Move.MoveCategory.PHYSICAL, null));
+                    moves.add(new Move("Growl", Type.NORMAL, 0, Move.MoveCategory.STATUS, Move.StatusEffect.ATTACK_DOWN));
+                    moves.add(new Move("Ember", Type.FIRE, 40, Move.MoveCategory.SPECIAL, null));
+                    moves.add(new Move("Metal Claw", Type.STEEL, 50, Move.MoveCategory.PHYSICAL, null));
+
+                    return new Pokemon(pokemonName, moves, atk, def, speed, type, lvl, hp);
                 }
 
                 case "Squirtle" -> {
-                    String moves[] = {"Tackle", "Tail Whip", "Bubble", "Water Gun"};
-                    int basePower[] = {35, 0, 20, 40};
-                    return new Pokemon("Squirtle", moves, "Water", 5, basePower, 8, 8, 11, 8);
+                    Type type = Type.WATER;
+                    int lvl = 5;
+                    int hp = 8;
+
+                    Stat atk = new Stat(Stat.StatType.ATTACK, 8);
+                    Stat def = new Stat(Stat.StatType.DEFENSE, 11);
+                    Stat speed = new Stat(Stat.StatType.SPEED, 8);
+
+                    moves.add(new Move("Tackle", Type.NORMAL, 35, Move.MoveCategory.PHYSICAL, null));
+                    moves.add(new Move("Tail Whip", Type.NORMAL, 0, Move.MoveCategory.STATUS, Move.StatusEffect.DEFENSE_DOWN));
+                    moves.add(new Move("Bubble", Type.WATER, 20, Move.MoveCategory.SPECIAL, null));
+                    moves.add(new Move("Water Gun", Type.WATER, 40, Move.MoveCategory.SPECIAL, null));
+
+                    return new Pokemon(pokemonName, moves, atk, def, speed, type, lvl, hp);
                 }
 
             }

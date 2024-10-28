@@ -34,7 +34,7 @@ public class Game {
             }
         } 
         System.out.println("\nYou picked " + player.getName());
-        System.out.println("Your Rival picked \n" + rival.getName());
+        System.out.println("Your Rival picked " + rival.getName());
 
         player.display();
         rival.display();
