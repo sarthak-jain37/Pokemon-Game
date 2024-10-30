@@ -44,12 +44,12 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 # How to Play
 
 Upon running the game, you will be prompted to choose a Pokémon by entering a number (1 for Bulbasaur, 2 for Charmander, or 3 for Squirtle).
-After selecting, you will face a rival Pokémon in a battle.
+After making your selection, you will face a rival Pokémon in a battle.
 Choose your moves and see if you can defeat your rival!
 
 # Future Enhancements
 
-
 1. Adding the concept of PP so the stronger moves aren't used excessively.
-2. Implementation of Accuracy, Evasion and Critical Hits.
-   
+2. Implementation of Accuracy and Evasion.
+3. Addition of Special Attack and Special Defense stats.
+
