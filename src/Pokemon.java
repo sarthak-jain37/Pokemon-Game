@@ -112,8 +112,6 @@ public class Pokemon {
             System.out.println("A critical hit!");
         }
         baseDamage = (((levelFactor * power * attack) / defense / 50) + 2) * critical;
-        System.out.printf("The attack : %d The defense : %d The level factor %f Critical : %d\n", attack, defense, levelFactor, critical);
-        System.out.printf("Base %f damage\n", baseDamage);
 
         if (move.getAdvantage() == 0) {
             System.out.printf("It doesn't affect %s...\n", defender.getName());
@@ -122,11 +120,7 @@ public class Pokemon {
             System.out.printf("It is %s effective\n", (move.getAdvantage() == 2.0) ? "super" : "not very");
         }
 
-        float r = RAND.nextFloat(0.85f, 1.0f);
-
-        System.out.printf("Advantage: %f Random %f\n", move.getAdvantage(), r);
-
-        return Math.max(1, (int) (baseDamage * move.getAdvantage() * r));
+        return Math.max(1, (int) (baseDamage * move.getAdvantage() * RAND.nextFloat(0.85f, 1.0f)));
     }
 
     private void applyStatusEffect(Pokemon defender, Move move, Move.StatusEffect effect) {
