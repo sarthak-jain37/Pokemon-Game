@@ -1,6 +1,7 @@
+
 public class Stat {
 
-    public enum StatType{
+    public enum StatType {
         ATTACK, DEFENSE, SPEED;
     }
 
@@ -8,9 +9,9 @@ public class Stat {
     private int value;
     private int stage;
 
-    public Stat(StatType type, int value) {
+    public Stat(StatType type, int base, int level) {
         this.type = type;
-        this.value = value;
+        this.value = ((2 * base * level) / 100) + 5;
         this.stage = 0;  // Default stage
     }
 
@@ -19,7 +20,11 @@ public class Stat {
     }
 
     public int getValue() {
-        return (int) (value * getStageMultiplier());
+        return (int) (this.value * getStageMultiplier());
+    }
+
+    public int getBaseValue() {
+        return this.value;
     }
 
     public void setValue(int value) {
@@ -38,9 +43,9 @@ public class Stat {
 
     private double getStageMultiplier() {
         if (stage >= 0) {
-            return 1 + (stage * 0.5);  
+            return 1 + (stage * 0.5);
         } else {
-            return 1 / (1 + (-stage * 0.5));  
+            return 1 / (1 + (-stage * 0.5));
         }
     }
 }
