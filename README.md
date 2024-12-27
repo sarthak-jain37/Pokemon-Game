@@ -2,7 +2,7 @@
 
 ## Description
 
-This project has been inspired by the Pokémon games made by GameFreak. The Pokémon Game is a simple text-based game in which players can choose their favourite starter Pokémon from the Kanto Region and engage in turn-based battles against rival Pokémon. This game is designed to simulate the classic Pokémon battle experience, where each Pokémon has unique moves, advantages, and attributes. 
+This project has been inspired by the Pokémon games made by GameFreak. The Pokémon Game is a simple text-based game in which players can choose their favourite starter Pokémon from the Kanto Region and engage in turn-based battles against rival Pokémon. This game is designed to simulate the classic Pokémon battle experience, where each Pokémon has unique moves, advantages, and attributes.
 
 ## Features
 
@@ -28,19 +28,27 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 ## Installation Steps
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/sarthak-jain37/Pokemon-Game.git
+
+   ```
 
 2. Navigate into the project directory:
    ```bash
    cd Pokemon-Game/src
+   ```
 3. Compile the Java files:
    ```bash
    javac *.java
+   ```
 4. Run the game:
+
    ```bash
    java Game
-   
+
+   ```
+
 # How to Play
 
 Upon running the game, you will be prompted to choose a Pokémon by entering a number (1 for Bulbasaur, 2 for Charmander, or 3 for Squirtle).
@@ -52,4 +60,3 @@ Choose your moves and see if you can defeat your rival!
 1. Adding the concept of PP so the stronger moves aren't used excessively.
 2. Implementation of Accuracy and Evasion.
 3. Addition of Special Attack and Special Defense stats.
-

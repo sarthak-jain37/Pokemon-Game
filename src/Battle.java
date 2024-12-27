@@ -30,7 +30,6 @@ public class Battle {
             Random random = new Random();
             byte rivalChoice = (byte) random.nextInt(rival.getMoves().size()); // Generates a random integer to choose the random move.
             // byte rivalChoice = 1;
-
             while (playerChoice < 0 || playerChoice >= player.getMoves().size()) {
                 System.out.println("Invalid choice, please select again.");
                 playerChoice = kb.nextByte();
