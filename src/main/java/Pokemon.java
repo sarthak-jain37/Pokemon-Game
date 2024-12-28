@@ -11,16 +11,20 @@ public class Pokemon {
     private final List<Move> moves;
     private final Stat atk;
     private final Stat def;
+    private final Stat spatk;
+    private final Stat spdef;
     private final Stat speed;
     private final int lvl;
     private int hp;
 
-    public Pokemon(String name, List<Move> moves, Stat atk, Stat def, Stat speed, Type type, int lvl, int hp) {
+    public Pokemon(String name, List<Move> moves, Stat atk, Stat def, Stat spatk, Stat spdef, Stat speed, Type type, int lvl, int hp) {
         this.name = name;
         this.moves = moves;
         this.type = type;
         this.atk = atk;
         this.def = def;
+        this.spatk = spatk;
+        this.spdef = spdef;
         this.speed = speed;
         this.lvl = lvl;
         this.hp = hp;
@@ -37,6 +41,8 @@ public class Pokemon {
         System.out.println("HP: " + hp);
         System.out.println(atk.getType() + " : " + atk.getValue());
         System.out.println(def.getType() + " : " + def.getValue());
+        System.out.println(spatk.getType() + " : " + spatk.getValue());
+        System.out.println(spdef.getType() + " : " + spdef.getValue());
         System.out.println(speed.getType() + " : " + speed.getValue());
         System.out.println();
     }
@@ -69,6 +75,14 @@ public class Pokemon {
         return def;
     }
 
+    public Stat getSpAtk() {
+        return spatk;
+    }
+
+    public Stat getSpDef() {
+        return spdef;
+    }
+
     public Stat getSpeed() {
         return speed;
     }
@@ -83,35 +97,39 @@ public class Pokemon {
 
     public void performMove(Pokemon defender, int index) {
         Move move = this.moves.get(index);
+
         Move.StatusEffect effect = move.getStatusEffect();
         move.setAdvantage(defender.getType());
         final int power = move.getBasePower();
         System.out.println(this.name + " used " + move.getName());
 
         int damage = calculateDamage(defender, move, power);
-        defender.reduceHP((int) damage);
+        defender.reduceHP(damage);
+        System.out.printf("Inflicted %d damage\n", damage);
         System.out.println(defender.getName() + "'s HP: " + Math.max(0, defender.getHP()));
         System.out.println();
         this.applyStatusEffect(defender, move, effect);
+        move.reducePP();
     }
 
     private int calculateDamage(Pokemon defender, Move move, int power) {
-        double baseDamage;
-        int critical = 1;
         if (power == 0) {
             return 0;
         }
 
-        int attack = this.atk.getValue();
-        int defense = defender.getDef().getValue();
+        int attack = getAttackValue(move);
+        int defense = getDefenseValue(move, defender);
         double levelFactor = (2 * this.lvl) / 5.0;
-        if (isCritical()) {
-            attack = Math.max(attack, this.atk.getBaseValue());
-            defense = Math.min(defense, defender.getDef().getBaseValue());
-            critical = 2;
+        int critical = isCritical() ? 2 : 1;
+
+        if (critical == 2) {
+            attack = Math.max(attack, getBaseAttackValue(move));
+            defense = Math.min(defense, getBaseDefenseValue(move, defender));
             System.out.println("A critical hit!");
         }
-        baseDamage = (((levelFactor * power * attack) / defense / 50) + 2) * critical;
+
+        double baseDamage = (((levelFactor * power * attack) / defense / 50) + 2) * critical;
+        System.out.printf("Base %.2f damage\n", baseDamage);
 
         if (move.getAdvantage() == 0) {
             System.out.printf("It doesn't affect %s...\n", defender.getName());
@@ -120,7 +138,25 @@ public class Pokemon {
             System.out.printf("It is %s effective\n", (move.getAdvantage() == 2.0) ? "super" : "not very");
         }
 
-        return Math.max(1, (int) (baseDamage * move.getAdvantage() * RAND.nextFloat(0.85f, 1.0f)));
+        float r = RAND.nextFloat(0.85f, 1.0f);
+        System.out.printf("Advantage: %.2f Random %.2f\n", move.getAdvantage(), r);
+        return Math.max(1, (int) (baseDamage * move.getAdvantage() * r));
+    }
+
+    private int getAttackValue(Move move) {
+        return (move.getCategory() == Move.Category.PHYSICAL) ? this.atk.getValue() : this.spatk.getValue();
+    }
+
+    private int getDefenseValue(Move move, Pokemon defender) {
+        return (move.getCategory() == Move.Category.PHYSICAL) ? defender.getDef().getValue() : defender.getSpDef().getValue();
+    }
+
+    private int getBaseAttackValue(Move move) {
+        return (move.getCategory() == Move.Category.PHYSICAL) ? this.atk.getBaseValue() : this.spatk.getBaseValue();
+    }
+
+    private int getBaseDefenseValue(Move move, Pokemon defender) {
+        return (move.getCategory() == Move.Category.PHYSICAL) ? defender.getDef().getBaseValue() : defender.getSpDef().getBaseValue();
     }
 
     private void applyStatusEffect(Pokemon defender, Move move, Move.StatusEffect effect) {

@@ -2,7 +2,7 @@
 public class Stat {
 
     public enum StatType {
-        ATTACK, DEFENSE, SPEED;
+        ATK, DEF, SPATK, SPDEF, SPEED;
     }
 
     private final StatType type;

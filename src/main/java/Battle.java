@@ -30,6 +30,7 @@ public class Battle {
             Random random = new Random();
             byte rivalChoice = (byte) random.nextInt(rival.getMoves().size()); // Generates a random integer to choose the random move.
             // byte rivalChoice = 1;
+
             while (playerChoice < 0 || playerChoice >= player.getMoves().size()) {
                 System.out.println("Invalid choice, please select again.");
                 playerChoice = kb.nextByte();
@@ -37,18 +38,19 @@ public class Battle {
                 System.out.println();
             }
 
+            Move move = player.getMoves().get(playerChoice);
+            while (move.getPP() <= 0) {
+                System.out.println("There's no PP left for this move!.");
+                playerChoice = kb.nextByte();
+                playerChoice--; //to get the correct index, i.e player choice - 1
+                System.out.println();
+                move = player.getMoves().get(playerChoice);
+            }
+
             if (player.getSpeed().getValue() > rival.getSpeed().getValue()) {
-                player.performMove(rival, playerChoice);
-                if (rival.getHP() <= 0) {
-                    break;
-                }
-                rival.performMove(player, rivalChoice);
+                performBattleTurn(player, rival, playerChoice, rivalChoice);
             } else {
-                rival.performMove(player, rivalChoice);
-                if (player.getHP() <= 0) {
-                    break;
-                }
-                player.performMove(rival, playerChoice);
+                performBattleTurn(rival, player, rivalChoice, playerChoice);
             }
         }
 
@@ -60,5 +62,13 @@ public class Battle {
             System.out.println("You defeated your Rival in battle!");
         }
         kb.close();
+    }
+
+    void performBattleTurn(Pokemon attacker, Pokemon defender, int attackerChoice, int defenderChoice) {
+        attacker.performMove(defender, attackerChoice);
+        if (defender.getHP() <= 0 || attacker.getHP() <= 0) {
+            return;
+        }
+        defender.performMove(attacker, defenderChoice);
     }
 }
