@@ -10,11 +10,14 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 - Engage in turn-based battles with a Computer Rival.
 - Each Pokémon has a different set of moves with different base powers.
 - The effectiveness of moves is determined by type advantages.
+- The battles have an element of skill and luck because of critical hits and damage variability.
 - The battle continues until either the player’s or rival's Pokémon faints.
 
 ## Technologies Used
 
 - **Java**: The game is developed in Java, utilizing its object-oriented features for creating Pokémon and battle mechanics.
+- **Maven**: Dependency management for the project.
+- **json-simple**: Used for handling JSON files to store Pokémon data.
 
 ## Getting Started
 
@@ -22,6 +25,7 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 
 - Java Development Kit (JDK) installed on your machine.
 - An IDE or text editor of your choice (e.g., Visual Studio Code, IntelliJ IDEA).
+- Maven installed for managing dependencies.
 
 ### Installation
 
@@ -31,22 +35,19 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 
    ```bash
    git clone https://github.com/sarthak-jain37/Pokemon-Game.git
-
    ```
 
 2. Navigate into the project directory:
    ```bash
    cd Pokemon-Game/src
    ```
-3. Compile the Java files:
+3. Use Maven to build the project:
    ```bash
-   javac *.java
+   mvn clean install
    ```
 4. Run the game:
-
    ```bash
-   java Game
-
+   mvn exec:java
    ```
 
 # How to Play
@@ -57,6 +58,5 @@ Choose your moves and see if you can defeat your rival!
 
 # Future Enhancements
 
-1. Adding the concept of PP so the stronger moves aren't used excessively.
-2. Implementation of Accuracy and Evasion.
-3. Addition of Special Attack and Special Defense stats.
+1. Implementation of Accuracy and Evasion.
+2. Changing the model to a 6 v 6 battle to add more depth.
