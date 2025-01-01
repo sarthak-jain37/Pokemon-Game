@@ -27,9 +27,12 @@ public class PokemonFactory {
                 Stat spdef = createStat(pokemonData, "spdef", lvl);
                 Stat speed = createStat(pokemonData, "speed", lvl);
 
+                Stat accuracy = new Stat(Stat.StatType.ACCURACY);
+                Stat evasion = new Stat(Stat.StatType.EVASION);
+
                 moves.addAll(parseMoves(pokemonData));
 
-                return new Pokemon(pokemonName, moves, atk, def, spatk, spdef, speed, Type.valueOf(type), lvl, hp);
+                return new Pokemon(pokemonName, moves, atk, def, spatk, spdef, speed, accuracy, evasion, Type.valueOf(type), lvl, hp);
             }
 
         } catch (Exception e) {
@@ -62,7 +65,7 @@ public class PokemonFactory {
                     Move.Category.valueOf((String) moveData.get("category")),
                     ((((String) moveData.get("statusEffect")) != null)) ? Move.StatusEffect.valueOf((String) moveData.get("statusEffect")) : null,
                     Move.Target.valueOf((String) moveData.get("target")),
-                    ((Long) moveData.get("pp")).intValue()
+                    ((Long) moveData.get("pp")).intValue(), ((Long) moveData.get("accuracy")).intValue()
             );
             moves.add(move);
         }

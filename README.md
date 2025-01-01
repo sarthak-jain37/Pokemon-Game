@@ -10,7 +10,7 @@ This project has been inspired by the Pokémon games made by GameFreak. The Pok�
 - Engage in turn-based battles with a Computer Rival.
 - Each Pokémon has a different set of moves with different base powers.
 - The effectiveness of moves is determined by type advantages.
-- The battles have an element of skill and luck because of critical hits and damage variability.
+- The battles have an element of skill and luck with critical hits, damage variability and attacks missing.
 - The battle continues until either the player’s or rival's Pokémon faints.
 
 ## Technologies Used
@@ -58,5 +58,8 @@ Choose your moves and see if you can defeat your rival!
 
 # Future Enhancements
 
-1. Implementation of Accuracy and Evasion.
-2. Changing the model to a 6 v 6 battle to add more depth.
+1. Changing the model to a 6 v 6 battle to add more depth.
+2. Adding IVs and EVs
+3. New Rival AI
+4. Status Conditions like SLEEP, BURN, POISON, PARALYSIS, FREEZE.
+5. Add Dual Type Pokemon

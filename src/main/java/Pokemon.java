@@ -14,10 +14,12 @@ public class Pokemon {
     private final Stat spatk;
     private final Stat spdef;
     private final Stat speed;
+    private final Stat accuracy;
+    private final Stat evasion;
     private final int lvl;
     private int hp;
 
-    public Pokemon(String name, List<Move> moves, Stat atk, Stat def, Stat spatk, Stat spdef, Stat speed, Type type, int lvl, int hp) {
+    public Pokemon(String name, List<Move> moves, Stat atk, Stat def, Stat spatk, Stat spdef, Stat speed, Stat accuracy, Stat evasion, Type type, int lvl, int hp) {
         this.name = name;
         this.moves = moves;
         this.type = type;
@@ -26,6 +28,8 @@ public class Pokemon {
         this.spatk = spatk;
         this.spdef = spdef;
         this.speed = speed;
+        this.accuracy = accuracy;
+        this.evasion = evasion;
         this.lvl = lvl;
         this.hp = hp;
     }
@@ -87,6 +91,14 @@ public class Pokemon {
         return speed;
     }
 
+    public Stat getAccuracy() {
+        return accuracy;
+    }
+
+    public Stat getEvasion() {
+        return evasion;
+    }
+
     public void reduceHP(int damage) {
         hp -= damage;
     }
@@ -103,12 +115,18 @@ public class Pokemon {
         final int power = move.getBasePower();
         System.out.println(this.name + " used " + move.getName());
 
-        int damage = calculateDamage(defender, move, power);
-        defender.reduceHP(damage);
-        System.out.printf("Inflicted %d damage\n", damage);
-        System.out.println(defender.getName() + "'s HP: " + Math.max(0, defender.getHP()));
-        System.out.println();
-        this.applyStatusEffect(defender, move, effect);
+        if (!doesMoveHit(defender, move)) {
+            System.out.println("But it missed!");
+            System.out.println(defender.getName() + "'s HP: " + Math.max(0, defender.getHP()));
+            System.out.println();
+        } else {
+            int damage = calculateDamage(defender, move, power);
+            defender.reduceHP(damage);
+            System.out.printf("Inflicted %d damage\n", damage);
+            System.out.println(defender.getName() + "'s HP: " + Math.max(0, defender.getHP()));
+            System.out.println();
+            applyStatusEffect(defender, move, effect);
+        }
         move.reducePP();
     }
 
@@ -129,7 +147,7 @@ public class Pokemon {
         }
 
         double baseDamage = (((levelFactor * power * attack) / defense / 50) + 2) * critical;
-        System.out.printf("Base %.2f damage\n", baseDamage);
+        // System.out.printf("Base Damage: %.2f\n", baseDamage);
 
         if (move.getAdvantage() == 0) {
             System.out.printf("It doesn't affect %s...\n", defender.getName());
@@ -139,8 +157,25 @@ public class Pokemon {
         }
 
         float r = RAND.nextFloat(0.85f, 1.0f);
-        System.out.printf("Advantage: %.2f Random %.2f\n", move.getAdvantage(), r);
+        // System.out.printf("Advantage: %.2f Random %.2f\n", move.getAdvantage(), r);
         return Math.max(1, (int) (baseDamage * move.getAdvantage() * r));
+    }
+
+    private boolean isCritical() {
+        return (RAND.nextInt(16) == 0);
+    }
+
+    private boolean doesMoveHit(Pokemon defender, Move move) {
+        // System.out.println("Accuracy: " + this.accuracy.getStage());
+        // System.out.println("Evasion: " + defender.getEvasion().getStage());
+
+        double multiplier = Stat.getStageMultiplier(this.accuracy.getStage() - defender.getEvasion().getStage());
+        // System.out.println("Multiplier: " + multiplier);
+        int final_accuracy = (int) (move.getAccuracy() * multiplier);
+        // System.out.println("Final Accuracy: " + final_accuracy);
+        int r = RAND.nextInt(100) + 1;
+        // System.out.println("Random: " + r);
+        return (r <= final_accuracy);
     }
 
     private int getAttackValue(Move move) {
@@ -169,7 +204,7 @@ public class Pokemon {
     }
 
     private void modifyStat(Pokemon defender, Move.StatusEffect effect) {
-        int change = (effect == Move.StatusEffect.ATTACK_UP || effect == Move.StatusEffect.DEFENSE_UP || effect == Move.StatusEffect.SPEED_UP) ? 1 : -1;
+        int change = (effect == Move.StatusEffect.ATTACK_UP || effect == Move.StatusEffect.DEFENSE_UP || effect == Move.StatusEffect.SPATK_UP || effect == Move.StatusEffect.SPDEF_UP || effect == Move.StatusEffect.SPEED_UP || effect == Move.StatusEffect.ACCURACY_UP || effect == Move.StatusEffect.EVASION_UP) ? 1 : -1;
         Stat statToModify;
 
         switch (effect) {
@@ -179,12 +214,21 @@ public class Pokemon {
                 statToModify = defender.getDef();
             case SPEED_UP, SPEED_DOWN ->
                 statToModify = defender.getSpeed();
+            case SPATK_UP, SPATK_DOWN ->
+                statToModify = defender.getSpAtk();
+            case SPDEF_UP, SPDEF_DOWN ->
+                statToModify = defender.getSpDef();
+            case ACCURACY_UP, ACCURACY_DOWN ->
+                statToModify = defender.getAccuracy();
+            case EVASION_UP, EVASION_DOWN ->
+                statToModify = defender.getEvasion();
             default ->
                 throw new IllegalArgumentException("Unexpected value: " + effect);
         }
 
-        if (!statToModify.modifyStage(change)) {
+        if (!statToModify.canModifyStage(change)) {
             System.out.printf("%s's %s won't go any %s!\n", defender.getName(), statToModify.getType(), (change > 0) ? "higher" : "lower");
+            System.out.println();
         } else {
             reportStatChange(defender, statToModify.getType(), (change > 0) ? "rose" : "fell", statToModify.getValue());
         }
@@ -192,11 +236,9 @@ public class Pokemon {
 
     private void reportStatChange(Pokemon defender, Stat.StatType stat, String statAction, int newStat) {
         System.out.printf("%s's %s %s!\n", defender.getName(), stat, statAction);
-        System.out.println(stat + " " + newStat);
+        if (!(stat == Stat.StatType.ACCURACY) && !(stat == Stat.StatType.EVASION)) {
+            System.out.println(stat + " " + newStat);
+        }
         System.out.println();
-    }
-
-    private boolean isCritical() {
-        return (RAND.nextInt(16) == 0);
     }
 }

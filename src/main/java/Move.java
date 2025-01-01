@@ -6,7 +6,7 @@ public class Move {
     }
 
     public enum StatusEffect {
-        ATTACK_DOWN, ATTACK_UP, DEFENSE_DOWN, DEFENSE_UP, SPEED_UP, SPEED_DOWN;
+        ATTACK_DOWN, ATTACK_UP, DEFENSE_DOWN, DEFENSE_UP, SPEED_UP, SPEED_DOWN, SPATK_DOWN, SPATK_UP, SPDEF_DOWN, SPDEF_UP, ACCURACY_UP, ACCURACY_DOWN, EVASION_UP, EVASION_DOWN;
     }
 
     public enum Target {
@@ -19,16 +19,18 @@ public class Move {
     private final StatusEffect statusEffect;
     private final Type type;
     private final Target target;
+    private final int accuracy;
     private int pp;
     private double advantage;
 
-    public Move(String name, Type type, int basePower, Category category, StatusEffect statusEffect, Target target, int pp) {
+    public Move(String name, Type type, int basePower, Category category, StatusEffect statusEffect, Target target, int pp, int accuracy) {
         this.name = name;
         this.type = type;
         this.basePower = basePower;
         this.category = category;
         this.statusEffect = statusEffect;
         this.target = target;
+        this.accuracy = accuracy;
         this.pp = pp;
         this.advantage = 1;
     }
@@ -55,6 +57,10 @@ public class Move {
 
     public Target getTarget() {
         return target;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
     }
 
     public int getPP() {
