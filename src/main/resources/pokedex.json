@@ -1,6 +1,6 @@
 {
   "Bulbasaur": {
-    "type": "GRASS",
+    "type": ["GRASS", "POISON"],
     "lvl": 5,
     "baseHP": 45,
     "moves": [
@@ -9,7 +9,7 @@
         "type": "NORMAL",
         "power": 35,
         "category": "PHYSICAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 35,
         "accuracy": 95
@@ -19,7 +19,7 @@
         "type": "NORMAL",
         "power": 0,
         "category": "STATUS",
-        "statusEffect": "ATTACK_DOWN",
+        "statModifier": "ATTACK_DOWN",
         "target": "FOE",
         "pp": 40,
         "accuracy": 100
@@ -29,7 +29,7 @@
         "type": "GRASS",
         "power": 55,
         "category": "SPECIAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 25,
         "accuracy": 95
@@ -39,7 +39,7 @@
         "type": "GRASS",
         "power": 35,
         "category": "SPECIAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 25,
         "accuracy": 100
@@ -54,7 +54,7 @@
     }
   },
   "Charmander": {
-    "type": "FIRE",
+    "type": ["FIRE"],
     "lvl": 5,
     "baseHP": 39,
     "moves": [
@@ -63,7 +63,7 @@
         "type": "NORMAL",
         "power": 40,
         "category": "PHYSICAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 35,
         "accuracy": 100
@@ -73,7 +73,7 @@
         "type": "NORMAL",
         "power": 0,
         "category": "STATUS",
-        "statusEffect": "ATTACK_DOWN",
+        "statModifier": "ATTACK_DOWN",
         "target": "FOE",
         "pp": 40,
         "accuracy": 100
@@ -83,7 +83,7 @@
         "type": "FIRE",
         "power": 40,
         "category": "SPECIAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 25,
         "accuracy": 100
@@ -93,7 +93,7 @@
         "type": "STEEL",
         "power": 50,
         "category": "PHYSICAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 35,
         "accuracy": 95
@@ -108,7 +108,7 @@
     }
   },
   "Squirtle": {
-    "type": "WATER",
+    "type": ["WATER"],
     "lvl": 5,
     "baseHP": 44,
     "moves": [
@@ -117,7 +117,7 @@
         "type": "NORMAL",
         "power": 35,
         "category": "PHYSICAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 35,
         "accuracy": 95
@@ -127,7 +127,7 @@
         "type": "NORMAL",
         "power": 0,
         "category": "STATUS",
-        "statusEffect": "DEFENSE_DOWN",
+        "statModifier": "DEFENSE_DOWN",
         "target": "FOE",
         "pp": 30,
         "accuracy": 100
@@ -137,7 +137,7 @@
         "type": "WATER",
         "power": 20,
         "category": "SPECIAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 30,
         "accuracy": 100
@@ -147,7 +147,7 @@
         "type": "WATER",
         "power": 40,
         "category": "SPECIAL",
-        "statusEffect": null,
+        "statModifier": null,
         "target": "FOE",
         "pp": 25,
         "accuracy": 100

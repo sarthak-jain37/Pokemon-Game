@@ -38,19 +38,31 @@ public class Battle {
                 System.out.println();
             }
 
-            Move move = player.getMoves().get(playerChoice);
-            while (move.getPP() <= 0) {
+            Move playerMove = player.getMoves().get(playerChoice);
+            Move rivalMove = rival.getMoves().get(rivalChoice);
+            while (playerMove.getPP() <= 0) {
                 System.out.println("There's no PP left for this move!.");
                 playerChoice = kb.nextByte();
                 playerChoice--; //to get the correct index, i.e player choice - 1
                 System.out.println();
-                move = player.getMoves().get(playerChoice);
+                playerMove = player.getMoves().get(playerChoice);
+            }
+
+            while (rivalMove.getPP() <= 0) {
+                rivalChoice = (byte) random.nextInt(rival.getMoves().size());
+                rivalMove = rival.getMoves().get(rivalChoice);
             }
 
             if (player.getSpeed().getValue() > rival.getSpeed().getValue()) {
-                performBattleTurn(player, rival, playerChoice, rivalChoice);
+                player.performMove(rival, playerMove);
+                if (rival.getHP() > 0) {
+                    rival.performMove(player, rivalMove);
+                }
             } else {
-                performBattleTurn(rival, player, rivalChoice, playerChoice);
+                rival.performMove(player, rivalMove);
+                if (player.getHP() > 0) {
+                    player.performMove(rival, playerMove);
+                }
             }
         }
 
@@ -62,13 +74,5 @@ public class Battle {
             System.out.println("You defeated your Rival in battle!");
         }
         kb.close();
-    }
-
-    void performBattleTurn(Pokemon attacker, Pokemon defender, int attackerChoice, int defenderChoice) {
-        attacker.performMove(defender, attackerChoice);
-        if (defender.getHP() <= 0 || attacker.getHP() <= 0) {
-            return;
-        }
-        defender.performMove(attacker, defenderChoice);
     }
 }

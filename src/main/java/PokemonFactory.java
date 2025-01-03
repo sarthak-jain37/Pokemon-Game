@@ -11,12 +11,13 @@ public class PokemonFactory {
 
     static Pokemon createPokemon(String pokemonName) {
         List<Move> moves = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
+
         try {
             JSONObject jsonObject = parseJsonFile("src/main/resources/pokedex.json");
             JSONObject pokemonData = (JSONObject) jsonObject.get(pokemonName);
 
             if (pokemonData != null) {
-                String type = (String) pokemonData.get("type");
                 int lvl = ((Long) pokemonData.get("lvl")).intValue();
                 int baseHP = ((Long) pokemonData.get("baseHP")).intValue();
                 int hp = calculateHP(baseHP, lvl);
@@ -30,9 +31,14 @@ public class PokemonFactory {
                 Stat accuracy = new Stat(Stat.StatType.ACCURACY);
                 Stat evasion = new Stat(Stat.StatType.EVASION);
 
+                JSONArray typeArray = (JSONArray) pokemonData.get("type");
+                for (Object typeObj : typeArray) {
+                    types.add(Type.valueOf(((String) typeObj).toUpperCase()));
+                }
+
                 moves.addAll(parseMoves(pokemonData));
 
-                return new Pokemon(pokemonName, moves, atk, def, spatk, spdef, speed, accuracy, evasion, Type.valueOf(type), lvl, hp);
+                return new Pokemon(pokemonName, moves, atk, def, spatk, spdef, speed, accuracy, evasion, types, lvl, hp);
             }
 
         } catch (Exception e) {
@@ -63,7 +69,8 @@ public class PokemonFactory {
                     Type.valueOf((String) moveData.get("type")),
                     ((Long) moveData.get("power")).intValue(),
                     Move.Category.valueOf((String) moveData.get("category")),
-                    ((((String) moveData.get("statusEffect")) != null)) ? Move.StatusEffect.valueOf((String) moveData.get("statusEffect")) : null,
+                    ((((String) moveData.get("statModifier")) != null)) ? Move.StatModifier.valueOf((String) moveData.get("statModifier")) : null,
+                    ((((String) moveData.get("statusEffect")) != null)) ? StatusEffect.valueOf((String) moveData.get("statusEffect")) : null,
                     Move.Target.valueOf((String) moveData.get("target")),
                     ((Long) moveData.get("pp")).intValue(), ((Long) moveData.get("accuracy")).intValue()
             );
